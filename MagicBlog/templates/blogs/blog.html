@@ -16,8 +16,22 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <p> {{blog.summary}}</p>
+        <h3>{{blog.summary}}</h3> 
         <p> {{blog.description}}</p>
+        <p><b>Likes:</b> {{blog.like_set.all.count}}</p>
+        <a href="{% url 'like' blog.id %}">{{liked}}</a>
+        <p><b>Comments:</b></p>
+        <ul>
+        {% for comment in blog.comment_set.all %}
+            <li><p>{{comment.text}}</p></li>
+        {% endfor %}
+        </ul>
+        
+        <form action="" method="post">
+            {% csrf_token %}   
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
         <script src="" async defer></script>
     </body>
 </html>

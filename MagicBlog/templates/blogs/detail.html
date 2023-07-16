@@ -16,11 +16,17 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        MAIN PAGE FOR BLOGS !!
+        <h2>MAIN PAGE FOR BLOGS !!</h2>
+        <ul>
         {% for blog in blogs %}
-            <p>{{blog.summary}} USER: {{blog.created_by.username}} LIKES: {{blog.like_set.all.count}}</p>
+            <li>
+            <h3>{{blog.summary}}</h3>
+            <p><b>USER: </b> {{blog.created_by.username}}</p>
+            <p><b>LIKES: </b>{{blog.like_set.all.count}}</p>
             <a href="{% url 'blog' blog.id%}">View Blog</a>
+            </li>
         {% endfor %}
+        </ul>
         <script src="" async defer></script>
     </body>
 </html>
