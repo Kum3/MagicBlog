@@ -9,13 +9,23 @@ def index(request):
     """
     return render(request=request, template_name="blogs\index.html")
 
+def my_profile(request):
+    user = User.objects.get(is_active=True)
+    blogs = get_blogs({"created_by": user})
+    context = {"blogs":blogs}
+    return render(request=request, template_name="blogs\myprofile.html", context=context)
+
 def detail(request):
     """
     This view will deal with the main page of MagicBlog
     """
-    blogs = Blog.objects.all()
+    blogs = get_blogs()
     context_dict = {"blogs":blogs}
     return render(request=request, template_name="blogs\detail.html", context=context_dict)
+
+def get_blogs(filters={}):
+    blogs = Blog.objects.filter(**filters)
+    return blogs
 
 def login(request):
     """
@@ -29,6 +39,7 @@ def login(request):
         user = User.objects.get(username=username)
         user.is_active = True
         user.save()
+        sign_out_all_users(user.id)
     except User.DoesNotExist:
         raise Exception("No user exists from this username.")
     if user.password != password:
@@ -48,6 +59,7 @@ def sign_up(request):
         return render(request=request, template_name="blogs\signup.html")
     try:
         user = User.objects.create(username=username, first_name=firstname, last_name=lastname, password=password, email=email, is_active=True)
+        sign_out_all_users(user.id)
     except Exception as e:
         raise Exception(e)
     return redirect("detail")
@@ -84,3 +96,24 @@ def like(request, pk):
         return redirect("blog", pk=pk)
     Like.objects.create(blog=blog, user=user)
     return redirect("blog", pk=pk)
+
+def add_new_blog(request):
+    summary = request.POST.get("summary")
+    description = request.POST.get("description")
+    if not summary and not description: 
+        return render(request=request, template_name="blogs\\addblog.html")
+    user = get_active_user()
+    Blog.objects.create(summary=summary, description=description, created_by=user)
+    return redirect("myprofile")
+    
+
+def sign_out_all_users(user_id):
+    unactive_users = []
+    users = User.objects.exclude(id=user_id)
+    for user in users:
+        user.is_active = False
+        unactive_users.append(user)
+    User.objects.bulk_update(unactive_users, ["is_active"])
+
+def get_active_user():
+    return User.objects.get(is_active=True)

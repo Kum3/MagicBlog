@@ -16,18 +16,14 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h2>MAIN PAGE FOR BLOGS !!</h2>
-        <ul>
-        {% for blog in blogs %}
-            <li>
-            <h3>{{blog.summary}}</h3>
-            <p><b>USER: </b> {{blog.created_by.username}}</p>
-            <p><b>LIKES: </b>{{blog.like_set.all.count}}</p>
-            <a href="{% url 'blog' blog.id%}">View Blog</a>
-            </li>
-        {% endfor %}
-        </ul>
-        <a href="{% url 'myprofile'%}" class="fcc-btn">My profile</a>
+        ADD NEW BLOG
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}  
+            <label for="summary">Summary:</label><textarea name="summary" id="summary" cols="30" rows="10"></textarea>
+            <label for="description">Description:</label><textarea name="description" id="description" cols="30" rows="10"></textarea>
+            <input type="file" name="image" id="image" accept="image/*" required>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
         <script src="" async defer></script>
     </body>
 </html>

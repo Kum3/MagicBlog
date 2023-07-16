@@ -21,6 +21,9 @@ class User(models.Model):
     email = models.EmailField()
     is_active = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.username
+
 
 class Blog(models.Model):
     """
