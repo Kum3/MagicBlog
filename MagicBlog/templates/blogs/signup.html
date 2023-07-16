@@ -16,10 +16,15 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h1>WELCOME TO MAGICBLOG !!</h1>
-        <a href="login">LOGIN</a>
-        <a style="margin-left: 300px;" href="signup">SIGNUP</a>
-        
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">User Name:</label>    <input type="text" placeholder="Username" name="username">
+            <label for="firstname">First Name:</label>    <input type="text" placeholder="Firstname" name="firstname">
+            <label for="lastname">Lasgt Name:</label>    <input type="text" placeholder="Lastname" name="lastname">
+            <label for="password">Password:</label>    <input type="text" placeholder="Password" name="password">
+            <label for="email">Email:</label>    <input type="text" placeholder="Email" name="email">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
         <script src="" async defer></script>
     </body>
 </html>

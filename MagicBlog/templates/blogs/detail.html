@@ -16,10 +16,11 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h1>WELCOME TO MAGICBLOG !!</h1>
-        <a href="login">LOGIN</a>
-        <a style="margin-left: 300px;" href="signup">SIGNUP</a>
-        
+        MAIN PAGE FOR BLOGS !!
+        {% for blog in blogs %}
+            <p>{{blog.summary}} USER: {{blog.created_by.username}} LIKES: {{blog.like_set.all.count}}</p>
+            <a href="{% url 'blog' blog.id%}">View Blog</a>
+        {% endfor %}
         <script src="" async defer></script>
     </body>
 </html>
